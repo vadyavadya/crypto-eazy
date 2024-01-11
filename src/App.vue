@@ -10,7 +10,7 @@
       <table>
 
         <tr>
-          <th>Норм</th>
+          <th>Оригинал</th>
           <th>Шифр</th>
         </tr>
 
@@ -25,11 +25,13 @@
     <div class="inp">
       <input autocomplete="off" type="text" name="form" data-error="Ошибка" placeholder="" class="input" v-model="valueInput">
       <p>{{ result }}</p>
+      <p class="small">Если есть знак "?" значит символ неизвестен и ссылка не сработает</p>
       <p><a :href="link" target="_blank">Ссылка</a></p>
     </div>
 
   </div>
 </template>
+
 <script setup>
 import {ref, watch} from 'vue';
 
@@ -106,8 +108,9 @@ const result = ref('');
 const link = ref('');
 
 watch(valueInput, () => {
-  result.value = valueInput.value.split('').map((item) => alf[item]).join('');
+  result.value = valueInput.value.trim().split('').map((item) => alf[item]).join('');
   link.value = `http://msk-lts-001.msk.evraz.com/kid/webserv.nsf/problemmonitor_main?openagent&req_fio=${result.value}0&it_spec=&otv_inic=&isp_inic=`
+  console.log('result.value', result.value);
 })
 
 </script>
@@ -138,5 +141,9 @@ TH {
 
 .input {
   width: 300px;
+}
+
+.small {
+  font-size: 0.7rem;
 }
 </style>
